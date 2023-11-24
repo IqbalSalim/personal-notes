@@ -17,17 +17,20 @@ class SearchNoteInput extends React.Component {
         search: event.target.value,
       };
     });
+    event.preventDefault();
     this.props.searchNote(this.state.search);
   }
 
   render() {
     return (
-      <input
-        type="text"
-        placeholder="Cari catatan..."
-        value={this.state.search}
-        onChange={this.onSearchChangeEventHandler}
-      />
+      <div className="note-search">
+        <input
+          type="text"
+          placeholder="Cari catatan..."
+          value={this.state.search}
+          onChange={this.onSearchChangeEventHandler}
+        />
+      </div>
     );
   }
 }
