@@ -1,6 +1,6 @@
 import React from "react";
 
-class SearchNote extends React.Component {
+class SearchNoteInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,6 +17,7 @@ class SearchNote extends React.Component {
         search: event.target.value,
       };
     });
+    this.props.searchNote(this.state.search);
   }
 
   render() {
@@ -31,4 +32,4 @@ class SearchNote extends React.Component {
   }
 }
 
-export default SearchNote;
+export default SearchNoteInput;
