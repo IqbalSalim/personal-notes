@@ -7,7 +7,7 @@ class NoteApp extends React.Component {
     super(props);
     this.state = {
       notes: getInitialData(),
-      tempNotes: getInitialData(),
+      search: "",
     };
 
     this.onSearchNoteHandler = this.onSearchNoteHandler.bind(this);
@@ -16,8 +16,11 @@ class NoteApp extends React.Component {
     this.onArciveHandler = this.onArciveHandler.bind(this);
   }
 
-  onSearchNoteHandler($search) {
-    console.log(new Date().toJSON());
+  onSearchNoteHandler(event) {
+    this.setState({
+      search: event.target.value,
+    });
+    event.preventDefault();
   }
 
   onAddNoteHandler({ title, body }) {
@@ -33,15 +36,13 @@ class NoteApp extends React.Component {
             archived: false,
           },
         ],
-
-        tempNotes: notes,
       };
     });
   }
 
   onDeleteHandler(id) {
     const notes = this.state.notes.filter((note) => note.id !== id);
-    this.setState({ notes: notes, tempNotes: notes });
+    this.setState({ notes: notes });
   }
 
   onArciveHandler(id) {
@@ -52,18 +53,25 @@ class NoteApp extends React.Component {
     this.setState(() => {
       return {
         notes: notesUpdate,
-        tempNotes: notesUpdate,
       };
     });
   }
 
   render() {
+    let re = "";
+    if (this.state.search !== "" || this.state.search !== null) {
+      re = new RegExp(`${this.state.search}` + ".*", "gi");
+    }
     return (
       <>
         <Header searchNote={this.onSearchNoteHandler} />
         <Body
           addNote={this.onAddNoteHandler}
-          notes={this.state.tempNotes}
+          notes={
+            this.state.search !== "" || this.state.search !== null
+              ? this.state.notes.filter((i) => i.title.match(re))
+              : this.state.notes
+          }
           onDelete={this.onDeleteHandler}
           onArcive={this.onArciveHandler}
           showFormattedDate={showFormattedDate}
